@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Student class is to load the student details in the obejct.
+//Provison to add more fields in the future.
 public class Student
 {
     public string FirstName { get; set; }
