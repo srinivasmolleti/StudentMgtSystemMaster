@@ -62,7 +62,7 @@ namespace StudentMgtSystem
 
             // Finally writing the sorted data to the output file.
             // NOTE: It is always advisable to not to use FileStream for text files because it writes bytes, but StreamWriter
-            // encodes the output as text.
+            // encodes the output as text..
             using (System.IO.StreamWriter file =
                 new System.IO.StreamWriter(@"H:\StudentMgtSystem\StudentDataInput-graded.txt"))
             {
