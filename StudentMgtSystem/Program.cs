@@ -8,8 +8,8 @@ using System.IO;
 //Provison to add more fields in the future.
 public class Student
 {
-    public string FirstName { get; set; }
     public string LastName { get; set; }
+    public string FirstName { get; set; }
     public int Marks { get; set; }
 }
 
@@ -26,7 +26,7 @@ namespace StudentMgtSystem
             System.Console.WriteLine("*************************************************************************");
             System.Console.WriteLine("***   Welcome To The Transmax Applicatio Student Information System   ***");
             System.Console.WriteLine("***   Enter the input file Path:                                      ***");
-            System.Console.WriteLine("***   Example:H:\\StudentMgtSystem\\StudentData.txt                   ***");
+            System.Console.WriteLine("***   Example:H:\\StudentMgtSystem\\StudentData.txt                     ***");
             System.Console.WriteLine("*************************************************************************\n");
             
             string inputfilePath = System.Console.ReadLine();
@@ -61,8 +61,8 @@ namespace StudentMgtSystem
                 Student studentobject = new Student();
                 string[] splitdata = studentrecord.Split(delimiterChars, StringSplitOptions.RemoveEmptyEntries);
 
-                studentobject.FirstName = splitdata[0].Replace(" ", string.Empty);
-                studentobject.LastName = splitdata[1].Replace(" ", string.Empty);
+                studentobject.LastName = splitdata[0].Replace(" ", string.Empty);
+                studentobject.FirstName = splitdata[1].Replace(" ", string.Empty);
                 studentobject.Marks = int.Parse(splitdata[2].Replace(" ", string.Empty));
                 studentlist.Add(studentobject);
             }
@@ -70,7 +70,7 @@ namespace StudentMgtSystem
 
 
             //The sorted data will be copied to the new var list 
-            var sortedlist = studentlist.OrderByDescending(s => s.Marks).ThenBy(s1 => s1.FirstName);
+            var sortedlist = studentlist.OrderByDescending(s => s.Marks).ThenBy(s1 => s1.LastName).ThenBy(s2 => s2.FirstName);
 
             //Writing the sported output data to both console and output file.
             System.Console.WriteLine("**************************** SORTED DATA ******************************");
@@ -83,7 +83,7 @@ namespace StudentMgtSystem
             {
                 foreach (Student s in sortedlist)
                 {
-                    string sortedrecord = s.FirstName + ", " + s.LastName + ", " + s.Marks;
+                    string sortedrecord = s.LastName + ", " + s.FirstName + ", " + s.Marks;
                     System.Console.WriteLine(sortedrecord);
                     file.WriteLine(sortedrecord);
                 }
