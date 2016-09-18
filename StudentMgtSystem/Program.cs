@@ -33,17 +33,10 @@ namespace StudentMgtSystem
 
             //Creating the output file path using the input file path.          
             string fileName = Path.GetFileName(inputfilePath);
-            Console.WriteLine(fileName);
             string fileExt = Path.GetExtension(inputfilePath);
-            Console.WriteLine(fileExt);
             string fileNameWoExt = Path.GetFileNameWithoutExtension(inputfilePath);
-            Console.WriteLine(fileNameWoExt);
             string dirPath = Path.GetDirectoryName(inputfilePath);
-            Console.WriteLine(dirPath);
-
             string outputfilePath = dirPath + "\\" + fileNameWoExt + "-graded" + fileExt;
-            Console.WriteLine(outputfilePath);
-            System.Console.ReadKey();
 
             string strdata = System.IO.File.ReadAllText(inputfilePath);
             // Getting each line as a rowdata to finally spilt them into columns
@@ -154,7 +147,7 @@ namespace StudentMgtSystem
                         file.Close();
             
                         //Example #3, the most effective code:
-                        string[] rows = File.ReadAllLines(@"..\..\InputFile\names.txt");
+                        string[] rows = File.ReadAllLines(inputfilePath);
                         var data = rows.Skip(1);
                         var sorted = data.Select(row => new
                         {
@@ -167,7 +160,7 @@ namespace StudentMgtSystem
                                     .ThenBy(x => x.FirstName)
                                     .ThenBy(x => x.LastName)
                                     .Select(x => x.Row);
-                        File.WriteAllLines(@"..\..\OutputFile\Graded-Names.txt", rows.Take(1).Concat(sorted));             
+                        File.WriteAllLines(outputfilePath, rows.Take(1).Concat(sorted));             
             */
         }
     }
