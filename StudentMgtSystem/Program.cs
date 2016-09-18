@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 //Student class is to load the student details in the obejct.
 //Provison to add more fields in the future.
@@ -23,7 +24,29 @@ namespace StudentMgtSystem
         {
 
             // Read the input data from a file as one string.
-            string strdata = System.IO.File.ReadAllText(@"H:\StudentMgtSystem\StudentDataInput.txt");
+            System.Console.WriteLine("*************************************************************************");
+            System.Console.WriteLine("***   Welcome To The Transmax Applicatio Student Information System   ***");
+            System.Console.WriteLine("***   Enter the input file Path:                                      ***");
+            System.Console.WriteLine("***   Example:H:\\StudentMgtSystem\\StudentData.txt                   ***");
+            System.Console.WriteLine("*************************************************************************\n");
+            
+            string inputfilePath = System.Console.ReadLine();
+
+            //Creating the output file path using the input file path.          
+            string fileName = Path.GetFileName(inputfilePath);
+            Console.WriteLine(fileName);
+            string fileExt = Path.GetExtension(inputfilePath);
+            Console.WriteLine(fileExt);
+            string fileNameWoExt = Path.GetFileNameWithoutExtension(inputfilePath);
+            Console.WriteLine(fileNameWoExt);
+            string dirPath = Path.GetDirectoryName(inputfilePath);
+            Console.WriteLine(dirPath);
+
+            string outputfilePath = dirPath + "\\" + fileNameWoExt + "-graded" + fileExt;
+            Console.WriteLine(outputfilePath);
+            System.Console.ReadKey();
+
+            string strdata = System.IO.File.ReadAllText(inputfilePath);
             // Getting each line as a rowdata to finally spilt them into columns
             string[] rowdata = strdata.Split("\r\n\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
@@ -64,7 +87,7 @@ namespace StudentMgtSystem
             // NOTE: It is always advisable to not to use FileStream for text files because it writes bytes, but StreamWriter
             // encodes the output as text..
             using (System.IO.StreamWriter file =
-                new System.IO.StreamWriter(@"H:\StudentMgtSystem\StudentDataInput-graded.txt"))
+                new System.IO.StreamWriter(outputfilePath))
             {
                 foreach (Student s in sortedlist)
                 {
@@ -77,7 +100,7 @@ namespace StudentMgtSystem
 
             //Waiting for the user input to exit
             System.Console.WriteLine("The same sorted data is also copied to the file:");
-            System.Console.WriteLine("---->H:\\StudentMgtSystem\\StudentDataInput-graded.txt<----\n\n");
+            System.Console.WriteLine("---->"+outputfilePath+"<----\n\n");
             Console.WriteLine("Press any key to exit.");
             System.Console.ReadKey();
 
@@ -131,6 +154,21 @@ namespace StudentMgtSystem
 
                         file.Close();
             
+                        //Example #3, the most effective code:
+                        string[] rows = File.ReadAllLines(@"..\..\InputFile\names.txt");
+                        var data = rows.Skip(1);
+                        var sorted = data.Select(row => new
+                        {
+                            FirstName = row.Split(',')[0],
+                            LastName = row.Split(',')[1],
+                            Grade = Int32.Parse(row.Split(',')[2]),
+                            Row = row
+                        })
+                                    .OrderByDescending(x => x.Grade)
+                                    .ThenBy(x => x.FirstName)
+                                    .ThenBy(x => x.LastName)
+                                    .Select(x => x.Row);
+                        File.WriteAllLines(@"..\..\OutputFile\Graded-Names.txt", rows.Take(1).Concat(sorted));             
             */
         }
     }
